@@ -1,13 +1,13 @@
 import React, {useState} from "react"
 import "./CostForm.css"
 
-const CostForm = () =>{
+const CostForm = (props) =>{
 
-    const [inputName, setInputName] = useState('')
+    const [inputTitle, setInputTitle] = useState('')
     const [inputPrice, setInputPrice] = useState('')
     const [inputDate, setInputDate] = useState('')
-    const nameChangeHandler = (event) =>{
-        setInputName(event.target.value)
+    const titleChangeHandler = (event) =>{
+        setInputTitle(event.target.value)
     }
     const priceChangeHandler = (event) =>{
         setInputPrice(event.target.value)
@@ -17,16 +17,15 @@ const CostForm = () =>{
     }
     const submitHandler = (event) =>{
         event.preventDefault()
-        setInputName('')
+        setInputTitle('')
         setInputPrice('')
         setInputDate('')
-        console.log(CostData)
-
+        props.onSaveCostData(costData)
     }
-    const CostData = {
-        name:inputName,
+    const costData = {
+        title:inputTitle,
         price:inputPrice,
-        date:new Date(inputPrice)
+        date:new Date(inputDate)
     }
 
     return <form onSubmit={submitHandler}>
@@ -36,7 +35,7 @@ const CostForm = () =>{
                    Название 
                 </label>
                 {/* Двустороннее связывание value={input} onChange={ChangeHandler} */}
-                <input type="text" value={inputName} onChange={nameChangeHandler}/>
+                <input type="text" value={inputTitle} onChange={titleChangeHandler}/>
             </div>
             <div className="new-cost__control">
                 <label>
@@ -51,7 +50,8 @@ const CostForm = () =>{
                 <input type="date" min = '2019-01-01' step='2023-12-31' value={inputDate} onChange={dateChangeHandler}/>
             </div>
             <div className="new-cost__actions">
-                <button type="submit">Добавить Расход</button>
+                <button type="submit" >Добавить Расход</button>
+                <button type="button" onClick={props.onCancel}>Отмена</button>
             </div>
         </div>
     </form>
